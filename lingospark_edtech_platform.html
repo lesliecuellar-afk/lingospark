@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingoSpark | Igniting Young Minds, One Click at a Time</title>
+    <!-- Google Fonts: Poppins (Bold) & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sparkBlue: '#2563EB',
+                        sparkOrange: '#F97316',
+                        sparkWhite: '#F8FAFC',
+                        sparkNavy: '#0F172A',
+                    },
+                    fontFamily: {
+                        heading: ['Poppins', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-sparkWhite text-sparkNavy font-body antialiased selection:bg-sparkOrange selection:text-white flex flex-col min-h-screen">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo (SVG Speech Bubble + Spark + Poppins Bold) -->
+                <button onclick="navigateTo('home')" class="flex items-center gap-3 focus:outline-none group">
+                    <div class="w-11 h-11 rounded-xl bg-sparkBlue flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <svg class="w-7 h-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Speech Bubble -->
+                            <path d="M18 4C10.268 4 4 9.59644 4 16.5C4 19.6542 5.3112 22.5363 7.47852 24.7376L5.5 31L12.1924 28.1318C13.998 28.6951 15.9576 29 18 29C25.732 29 32 23.4036 32 16.5C32 9.59644 25.732 4 18 4Z" fill="#FFFFFF"/>
+                            <!-- Vibrant Orange Spark inside -->
+                            <path d="M18.5 9L13.5 17.5H18L17.5 24L22.5 15.5H18L18.5 9Z" fill="#F97316" stroke="#F97316" stroke-width="1.2" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <span class="font-heading font-bold text-2xl tracking-tight text-sparkNavy">Lingo<span class="text-sparkBlue">Spark</span></span>
+                    </div>
+                </button>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigateTo('home')" id="nav-home" class="nav-link font-medium text-sparkBlue font-semibold border-b-2 border-sparkBlue py-1 transition-colors">Home</button>
+                    <button onclick="navigateTo('about')" id="nav-about" class="nav-link font-medium text-slate-600 hover:text-sparkBlue py-1 transition-colors">About Us</button>
+                    <button onclick="navigateTo('pricing')" id="nav-pricing" class="nav-link font-medium text-slate-600 hover:text-sparkBlue py-1 transition-colors">Services & Pricing</button>
+                    <button onclick="navigateTo('contact')" id="nav-contact" class="nav-link font-medium text-slate-600 hover:text-sparkBlue py-1 transition-colors">Contact</button>
+                </nav>
+
+                <!-- Desktop CTA Button -->
+                <div class="hidden md:flex items-center">
+                    <button onclick="openTrialModal('7-Day Free Trial')" class="bg-sparkOrange hover:bg-orange-600 text-white font-heading font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer">
+                        Start Free Trial
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-lg text-sparkNavy hover:bg-slate-100 focus:outline-none" aria-label="Toggle Menu">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="mobile-menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-5 space-y-2 shadow-lg">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-semibold text-sparkBlue bg-blue-50">Home</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-50">About Us</button>
+            <button onclick="navigateTo('pricing'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-50">Services & Pricing</button>
+            <button onclick="navigateTo('contact'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-slate-50">Contact</button>
+            <div class="pt-2">
+                <button onclick="openTrialModal('7-Day Free Trial'); toggleMobileMenu()" class="w-full bg-sparkOrange text-white font-heading font-semibold py-3 rounded-xl shadow-md">
+                    Start Your Free 7-Day Trial
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER (4 PAGES / TABS) -->
+    <main class="flex-grow">
+
+        <!-- ========================================== -->
+        <!-- PAGE 1: HOME PAGE                          -->
+        <!-- ========================================== -->
+        <section id="page-home" class="page-section block">
+            <!-- Hero Section -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-sparkWhite to-orange-50/40 pt-10 pb-16 lg:pt-20 lg:pb-24 border-b border-slate-200/70">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <!-- Left Column: Copy & CTA -->
+                        <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 text-sparkBlue font-semibold text-sm">
+                                <span>⚡</span>
+                                <span>Igniting Young Minds, One Click at a Time.</span>
+                            </div>
+                            <h1 class="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-sparkNavy leading-tight">
+                                Make Learning Their <span class="text-sparkBlue">Favorite Part</span> of the Day.
+                            </h1>
+                            <p class="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                                Interactive English & homework tutoring powered by smart technology and real teachers. Designed for ages 7–14.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                                <button onclick="openTrialModal('7-Day Free Trial')" class="bg-sparkOrange hover:bg-orange-600 text-white font-heading font-bold text-lg px-8 py-4 rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                                    Start Your Free 7-Day Trial
+                                </button>
+                                <button onclick="navigateTo('pricing')" class="bg-white hover:bg-slate-50 text-sparkNavy border-2 border-slate-200 font-heading font-semibold text-lg px-7 py-4 rounded-2xl transition-colors">
+                                    Explore Plans
+                                </button>
+                            </div>
+                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-3 text-sm text-slate-500 font-medium">
+                                <span class="flex items-center gap-1.5"><span class="text-green-500 font-bold">✓</span> No credit card required</span>
+                                <span class="flex items-center gap-1.5"><span class="text-green-500 font-bold">✓</span> 100% Vetted Tutors</span>
+                                <span class="flex items-center gap-1.5"><span class="text-green-500 font-bold">✓</span> Cancel anytime</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Interactive Promotional Interface Mockup -->
+                        <div class="lg:col-span-6">
+                            <div class="relative bg-white rounded-3xl shadow-2xl border border-slate-200/80 p-5 sm:p-7">
+                                <!-- Top App Bar -->
+                                <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                        <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                        <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                        <span class="ml-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">LingoSpark Student Hub • Live</span>
+                                    </div>
+                                    <span class="px-3 py-1 rounded-full bg-orange-100 text-sparkOrange font-bold text-xs">🔥 5-Day Streak!</span>
+                                </div>
+
+                                <!-- Interactive Mini-Game Preview Card -->
+                                <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center bg-sparkWhite rounded-2xl p-4 border border-slate-200/60">
+                                    <!-- Tutor Video Feed Simulation -->
+                                    <div class="sm:col-span-5 bg-sparkBlue rounded-2xl p-4 text-white flex flex-col justify-between h-48 relative overflow-hidden">
+                                        <div class="flex justify-between items-start z-10">
+                                            <span class="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Live 1-on-1</span>
+                                            <span class="text-xs bg-white/20 px-2 py-0.5 rounded-lg">7AM - 7PM</span>
+                                        </div>
+                                        <div class="my-auto text-center z-10">
+                                            <div class="w-16 h-16 mx-auto rounded-full bg-white/20 border-2 border-white flex items-center justify-center text-3xl mb-2">
+                                                👩‍🏫
+                                            </div>
+                                            <p class="font-heading font-bold text-sm">Teacher Sarah</p>
+                                            <p class="text-xs text-blue-100">"Great pronunciation!"</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- AI Quiz Widget -->
+                                    <div class="sm:col-span-7 space-y-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-xs font-bold text-sparkBlue uppercase">AI Pronunciation Challenge</span>
+                                            <span class="text-xs font-semibold text-slate-500">+50 XP</span>
+                                        </div>
+                                        <p class="font-heading font-bold text-sparkNavy text-base">Complete the sentence:</p>
+                                        <p class="text-sm text-slate-600 bg-white p-3 rounded-xl border border-slate-200">
+                                            "Yesterday, we <span id="demo-blank" class="font-bold text-sparkOrange underline">_____</span> to the science museum."
+                                        </p>
+                                        <div class="grid grid-cols-2 gap-2 pt-1">
+                                            <button onclick="checkDemoAnswer(this, true)" class="demo-opt-btn py-2 px-3 rounded-xl border border-slate-200 bg-white hover:border-sparkBlue text-sm font-semibold text-sparkNavy transition-all">
+                                                went
+                                            </button>
+                                            <button onclick="checkDemoAnswer(this, false)" class="demo-opt-btn py-2 px-3 rounded-xl border border-slate-200 bg-white hover:border-sparkBlue text-sm font-semibold text-sparkNavy transition-all">
+                                                goed
+                                            </button>
+                                        </div>
+                                        <p id="demo-feedback" class="text-xs font-semibold text-green-600 hidden">🎉 Awesome job! AI Score: 98% Accuracy</p>
+                                    </div>
+                                </div>
+
+                                <!-- Bottom Stats Strip -->
+                                <div class="grid grid-cols-3 gap-3 mt-5 pt-4 border-t border-slate-100 text-center">
+                                    <div>
+                                        <p class="font-heading font-bold text-lg text-sparkBlue">24/7</p>
+                                        <p class="text-xs text-slate-500">AI Practice Hub</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-heading font-bold text-lg text-sparkOrange">7AM–7PM</p>
+                                        <p class="text-xs text-slate-500">Live Real Tutors</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-heading font-bold text-lg text-sparkNavy">Ages 7–14</p>
+                                        <p class="text-xs text-slate-500">Personalized Pace</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The LingoSpark Method (3 Steps) -->
+            <div class="py-16 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="text-sparkOrange font-heading font-bold text-sm uppercase tracking-wider">The LingoSpark Method</span>
+                    <h2 class="font-heading font-bold text-3xl sm:text-4xl text-sparkNavy mt-2">How Smart Tech Meets Real Teaching</h2>
+                    <p class="text-slate-600 mt-3 text-lg">A simple, stress-free daily routine that turns screen time into measurable school progress.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="bg-white rounded-2xl p-8 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow relative">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-100 text-sparkBlue font-heading font-bold text-xl flex items-center justify-center mb-6">1</div>
+                        <h3 class="font-heading font-bold text-xl text-sparkNavy mb-3">AI-Powered Daily Practice</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            10–15 minute gamified micro-lessons available <strong>24/7</strong>. Our smart AI adapts vocabulary and school exercises to your child's exact pace and gives instant pronunciation feedback.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white rounded-2xl p-8 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow relative">
+                        <div class="w-12 h-12 rounded-2xl bg-orange-100 text-sparkOrange font-heading font-bold text-xl flex items-center justify-center mb-6">2</div>
+                        <h3 class="font-heading font-bold text-xl text-sparkNavy mb-3">1-on-1 Live Micro-Tutoring</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Connect with vetted, certified teachers from <strong>7:00 AM to 7:00 PM</strong>. Tutors help students complete school homework and build real conversational confidence in English.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white rounded-2xl p-8 border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow relative">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-100 text-sparkBlue font-heading font-bold text-xl flex items-center justify-center mb-6">3</div>
+                        <h3 class="font-heading font-bold text-xl text-sparkNavy mb-3">Parent Progress Tracker</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Receive clear weekly digests showing new words mastered, quiz scores, and tutor notes—giving parents complete peace of mind in a 100% ad-free, safe digital space.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Levels Section (Ages 7-14) -->
+            <div class="bg-white py-16 lg:py-24 border-t border-slate-200/70">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-14">
+                        <span class="text-sparkBlue font-heading font-bold text-sm uppercase tracking-wider">Personalized Curriculum</span>
+                        <h2 class="font-heading font-bold text-3xl sm:text-4xl text-sparkNavy mt-2">Tailored to Every Stage of Growth</h2>
+                        <p class="text-slate-600 mt-3 text-lg">Every student takes a fun, 5-minute AI placement game on Day 1 to find their exact starting level.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Level 1 -->
+                        <div class="rounded-2xl bg-sparkWhite p-7 border-2 border-slate-200 hover:border-sparkBlue transition-colors flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-blue-100 text-sparkBlue font-bold text-xs">Ages 7–9 • Beginner</span>
+                                    <span class="text-2xl">🌱</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-2xl text-sparkNavy mb-2">Spark Explorers</h3>
+                                <p class="text-slate-600 text-sm mb-5">Primary school foundations built through interactive storytelling and voice games.</p>
+                                <ul class="space-y-2.5 text-sm text-slate-700">
+                                    <li class="flex items-start gap-2"><span class="text-sparkOrange font-bold">•</span> Phonics & clear pronunciation basics</li>
+                                    <li class="flex items-start gap-2"><span class="text-sparkOrange font-bold">•</span> Everyday vocabulary & visual flashcards</li>
+                                    <li class="flex items-start gap-2"><span class="text-sparkOrange font-bold">•</span> Elementary school homework support</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Level 2 -->
+                        <div class="rounded-2xl bg-sparkWhite p-7 border-2 border-sparkOrange shadow-md flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-orange-100 text-sparkOrange font-bold text-xs">Ages 10–12 • Intermediate</span>
+                                    <span class="text-2xl">🚀</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-2xl text-sparkNavy mb-2">Spark Builders</h3>
+                                <p class="text-slate-600 text-sm mb-5">Connecting grammar, reading comprehension, and spoken fluency with confidence.</p>
+                                <ul class="space-y-2.5 text-sm text-slate-700">
+                                    <li class="flex items-start gap-2"><span class="text-sparkBlue font-bold">•</span> Interactive conversation with live tutors</li>
+                                    <li class="flex items-start gap-2"><span class="text-sparkBlue font-bold">•</span> Reading comprehension & sentence building</li>
+                                    <li class="flex items-start gap-2"><span class="text-sparkBlue font-bold">•</span> Guided school subject micro-lessons</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Level 3 -->
+                        <div class="rounded-2xl bg-sparkWhite p-7 border-2 border-slate-200 hover:border-sparkBlue transition-colors flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-blue-100 text-sparkBlue font-bold text-xs">Ages 13–14 • Advanced</span>
+                                    <span class="text-2xl">⚡</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-2xl text-sparkNavy mb-2">Spark Achievers</h3>
+                                <p class="text-slate-600 text-sm mb-5">Middle school mastery focused on academic excellence and real-world communication.</p>
+                                <ul class="space-y-2.5 text-sm text-slate-700">
+                                    <li class="flex items-start gap-2"><span class="text-sparkOrange font-bold">•</span> Real-world debates & critical thinking</li>
+                                    <li class="flex items-start gap-2"><span class="text-sparkOrange font-bold">•</span> Advanced grammar & essay structure</li>
+                                    <li class="flex items-start gap-2"><span class="text-sparkOrange font-bold">•</span> School exam & presentation prep</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PAGE 2: ABOUT US PAGE                      -->
+        <!-- ========================================== -->
+        <section id="page-about" class="page-section hidden">
+            <!-- About Header -->
+            <div class="bg-sparkNavy text-white py-16 lg:py-20">
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <span class="text-sparkOrange font-heading font-bold text-sm uppercase tracking-wider">About LingoSpark</span>
+                    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl mt-3 mb-6">Empowering the Next Generation of Learners</h1>
+                    <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                        At LingoSpark, we believe every child deserves a learning experience that adapts to them. Founded by a team of passionate educators and tech innovators, we bridge the gap between boring textbooks and the digital world kids love.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Our Origin Story -->
+            <div class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm">
+                    <div class="lg:col-span-7 space-y-5">
+                        <span class="inline-block px-3 py-1 rounded-full bg-orange-100 text-sparkOrange font-bold text-xs uppercase">How We Started</span>
+                        <h2 class="font-heading font-bold text-3xl text-sparkNavy">Our Story: From Frustration to Innovation</h2>
+                        <p class="text-slate-600 leading-relaxed">
+                            LingoSpark wasn't born in a corporate boardroom, but from the real-world experiences of parents and educators in Latin America. We watched bright, curious children switch off in front of outdated textbooks and saw how crowded classrooms struggled to give each student personal attention.
+                        </p>
+                        <p class="text-slate-600 leading-relaxed">
+                            We realized there was a massive gap between the interactive digital world kids love and how they were expected to learn English and core school subjects. So we brought together EdTech engineers and certified teachers to fuse <strong>24/7 smart AI practice</strong> with the warmth of <strong>real 1-on-1 human tutors</strong>.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-5">
+                        <div class="bg-gradient-to-br from-sparkBlue to-blue-700 rounded-2xl p-8 text-white space-y-6 shadow-lg">
+                            <h3 class="font-heading font-bold text-xl border-b border-white/20 pb-3">Our Year 1 Roadmap</h3>
+                            <div class="space-y-4 text-sm">
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-sparkOrange text-white font-bold px-2.5 py-0.5 rounded-lg text-xs mt-0.5">01</span>
+                                    <p><strong>Digital Launch:</strong> Accessible web & mobile learning platform for ages 7–14.</p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-sparkOrange text-white font-bold px-2.5 py-0.5 rounded-lg text-xs mt-0.5">02</span>
+                                    <p><strong>Community Impact:</strong> Empowering 500+ active student subscribers across the region.</p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-sparkOrange text-white font-bold px-2.5 py-0.5 rounded-lg text-xs mt-0.5">03</span>
+                                    <p><strong>School Alliances:</strong> Partnering with local schools in El Salvador & Latin America via Spark School Pack.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission & Vision Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                    <div class="bg-white rounded-2xl p-8 border-t-4 border-sparkBlue shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-sparkBlue flex items-center justify-center text-2xl mb-4">🎯</div>
+                        <h3 class="font-heading font-bold text-2xl text-sparkNavy mb-3">Our Mission</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            To empower school-aged students with accessible, engaging, and personalized digital learning experiences that blend interactive technology with human guidance.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-8 border-t-4 border-sparkOrange shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-orange-50 text-sparkOrange flex items-center justify-center text-2xl mb-4">🌎</div>
+                        <h3 class="font-heading font-bold text-2xl text-sparkNavy mb-3">Our Vision</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            To become the leading digital learning companion in Latin America, transforming traditional tutoring into an exciting daily habit for every child.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Core Values -->
+                <div class="mt-16">
+                    <h2 class="font-heading font-bold text-3xl text-sparkNavy text-center mb-10">Our Core Values</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white rounded-2xl p-7 border border-slate-200 text-center">
+                            <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-100 text-sparkBlue flex items-center justify-center text-2xl mb-4">💡</div>
+                            <h3 class="font-heading font-bold text-xl text-sparkNavy mb-2">Innovation</h3>
+                            <p class="text-slate-600 text-sm">Using smart technology and gamification to make learning genuinely fun and effective.</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-7 border border-slate-200 text-center">
+                            <div class="w-14 h-14 mx-auto rounded-2xl bg-orange-100 text-sparkOrange flex items-center justify-center text-2xl mb-4">🤝</div>
+                            <h3 class="font-heading font-bold text-xl text-sparkNavy mb-2">Inclusivity</h3>
+                            <p class="text-slate-600 text-sm">Adapting to every student's unique learning pace, personality, and academic starting point.</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-7 border border-slate-200 text-center">
+                            <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-100 text-sparkBlue flex items-center justify-center text-2xl mb-4">⭐</div>
+                            <h3 class="font-heading font-bold text-xl text-sparkNavy mb-2">Excellence</h3>
+                            <p class="text-slate-600 text-sm">Delivering high-quality educational content backed by vetted, certified teachers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PAGE 3: SERVICES & PRICING PAGE            -->
+        <!-- ========================================== -->
+        <section id="page-pricing" class="page-section hidden">
+            <div class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="text-sparkOrange font-heading font-bold text-sm uppercase tracking-wider">Services & Pricing</span>
+                    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-sparkNavy mt-2">Simple, Transparent Plans for Every Learner</h1>
+                    <p class="text-slate-600 mt-4 text-lg">Start with a 7-day free trial. Cancel or switch plans anytime with zero hassle.</p>
+                </div>
+
+                <!-- 3 Pricing Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                    <!-- Plan 1: Spark Basic -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-sparkBlue font-bold text-xs mb-4">Ideal for Daily Practice</span>
+                            <h2 class="font-heading font-bold text-2xl text-sparkNavy">Spark Basic</h2>
+                            <p class="text-sm text-slate-500 mt-1">AI Practice Hub</p>
+                            <div class="my-6 flex items-baseline">
+                                <span class="font-heading font-extrabold text-5xl text-sparkNavy">$9.99</span>
+                                <span class="text-slate-500 ml-2 font-medium">/ month</span>
+                            </div>
+                            <ul class="space-y-3.5 text-sm text-slate-700 border-t border-slate-100 pt-6">
+                                <li class="flex items-start gap-2.5"><span class="text-green-500 font-bold">✓</span> <span><strong>24/7 Unlimited Access</strong> to the interactive learning app</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-green-500 font-bold">✓</span> <span>Gamified vocabulary & school subject micro-lessons</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-green-500 font-bold">✓</span> <span>Real-time AI pronunciation feedback</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-green-500 font-bold">✓</span> <span>Weekly progress quizzes & parent reports</span></li>
+                            </ul>
+                        </div>
+                        <button onclick="openTrialModal('Spark Basic ($9.99/mo)')" class="mt-8 w-full py-3.5 px-6 rounded-xl border-2 border-sparkBlue text-sparkBlue hover:bg-sparkBlue hover:text-white font-heading font-bold transition-colors">
+                            Start Free Trial
+                        </button>
+                    </div>
+
+                    <!-- Plan 2: Spark Plus (Highlighted with Vibrant Orange Border) -->
+                    <div class="bg-white rounded-3xl p-8 border-4 border-sparkOrange shadow-xl relative flex flex-col justify-between lg:-translate-y-2">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-sparkOrange text-white font-heading font-bold text-xs uppercase tracking-wider px-4 py-1.5 rounded-full shadow">
+                            Most Popular
+                        </div>
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-orange-100 text-sparkOrange font-bold text-xs mb-4">Best Results for Students</span>
+                            <h2 class="font-heading font-bold text-2xl text-sparkNavy">Spark Plus</h2>
+                            <p class="text-sm text-slate-500 mt-1">Live Micro-Tutoring + AI Hub</p>
+                            <div class="my-6 flex items-baseline">
+                                <span class="font-heading font-extrabold text-5xl text-sparkNavy">$24.99</span>
+                                <span class="text-slate-500 ml-2 font-medium">/ month</span>
+                            </div>
+                            <ul class="space-y-3.5 text-sm text-slate-700 border-t border-slate-100 pt-6">
+                                <li class="flex items-start gap-2.5"><span class="text-sparkOrange font-bold">✓</span> <span><strong>Everything in Spark Basic (24/7 AI App)</strong></span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-sparkOrange font-bold">✓</span> <span><strong>Two 30-minute live 1-on-1 video sessions/week</strong> with certified tutors</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-sparkOrange font-bold">✓</span> <span>Flexible scheduling from <strong>7:00 AM to 7:00 PM</strong> (Mon–Sat)</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-sparkOrange font-bold">✓</span> <span>Personalized homework help & English conversation</span></li>
+                            </ul>
+                        </div>
+                        <button onclick="openTrialModal('Spark Plus ($24.99/mo)')" class="mt-8 w-full py-4 px-6 rounded-xl bg-sparkOrange hover:bg-orange-600 text-white font-heading font-bold shadow-lg shadow-orange-500/30 transition-all">
+                            Start 7-Day Free Trial
+                        </button>
+                    </div>
+
+                    <!-- Plan 3: Spark School Pack -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-sparkNavy font-bold text-xs mb-4">For Schools & Teachers</span>
+                            <h2 class="font-heading font-bold text-2xl text-sparkNavy">Spark School Pack</h2>
+                            <p class="text-sm text-slate-500 mt-1">Custom Classroom Plan</p>
+                            <div class="my-6 flex items-baseline">
+                                <span class="font-heading font-extrabold text-5xl text-sparkNavy">$199</span>
+                                <span class="text-slate-500 ml-2 font-medium">/ mo per classroom</span>
+                            </div>
+                            <ul class="space-y-3.5 text-sm text-slate-700 border-t border-slate-100 pt-6">
+                                <li class="flex items-start gap-2.5"><span class="text-sparkBlue font-bold">✓</span> <span>Full 24/7 AI app access for all classroom students</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-sparkBlue font-bold">✓</span> <span>Complete teacher dashboard to assign interactive worksheets</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-sparkBlue font-bold">✓</span> <span>Automated grading & real-time student analytics</span></li>
+                                <li class="flex items-start gap-2.5"><span class="text-sparkBlue font-bold">✓</span> <span>Dedicated school onboarding & priority support (7:00 AM – 7:00 PM)</span></li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('contact')" class="mt-8 w-full py-3.5 px-6 rounded-xl bg-sparkBlue hover:bg-blue-700 text-white font-heading font-bold transition-colors">
+                            Contact Sales
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Clear Schedule & Availability Section -->
+                <div class="mt-20 bg-white rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <h2 class="font-heading font-bold text-2xl sm:text-3xl text-sparkNavy">Flexible Hours Built Around Your Family</h2>
+                        <p class="text-slate-600 mt-2">Whether your child attends school in the morning or afternoon, LingoSpark fits right into your routine.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 24/7 AI App Card -->
+                        <div class="rounded-2xl bg-orange-50/70 border border-orange-200 p-6 flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sparkOrange text-white flex items-center justify-center text-2xl shrink-0">⚡</div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h3 class="font-heading font-bold text-lg text-sparkNavy">AI Practice App</h3>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-sparkOrange text-white text-xs font-bold">24/7 UNLIMITED</span>
+                                </div>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    Available <strong>24 hours a day, 7 days a week</strong>. Practice vocabulary games, pronunciation, and micro-lessons anytime—mornings, evenings, or weekends.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 7:00 AM - 7:00 PM Live Tutors Card -->
+                        <div class="rounded-2xl bg-blue-50/70 border border-blue-200 p-6 flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sparkBlue text-white flex items-center justify-center text-2xl shrink-0">👩‍🏫</div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h3 class="font-heading font-bold text-lg text-sparkNavy">Live Certified Tutors</h3>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-sparkBlue text-white text-xs font-bold">7:00 AM – 7:00 PM</span>
+                                </div>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    Monday to Saturday from <strong>7:00 AM to 7:00 PM</strong>. Book or reschedule 1-on-1 sessions easily with at least 12 hours' notice.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PAGE 4: CONTACT PAGE                       -->
+        <!-- ========================================== -->
+        <section id="page-contact" class="page-section hidden">
+            <div class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="text-sparkBlue font-heading font-bold text-sm uppercase tracking-wider">Get in Touch</span>
+                    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-sparkNavy mt-2">We're Here to Help Your Child Shine</h1>
+                    <p class="text-slate-600 mt-3 text-lg">Have questions about our plans, live tutors, or school partnerships? Reach out to our team in Santa Ana.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    <!-- Left Column: Contact Details & Santa Ana Location -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6">
+                            <h2 class="font-heading font-bold text-2xl text-sparkNavy">Contact Information</h2>
+                            
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded-xl bg-blue-100 text-sparkBlue flex items-center justify-center text-xl shrink-0">📍</div>
+                                <div>
+                                    <h3 class="font-heading font-bold text-sm text-sparkNavy uppercase tracking-wide">Headquarters Location</h3>
+                                    <p class="text-slate-600 text-sm mt-1">Avenida Independencia Sur, Plaza Comercial #14,<br>Santa Ana, El Salvador</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded-xl bg-orange-100 text-sparkOrange flex items-center justify-center text-xl shrink-0">🕒</div>
+                                <div>
+                                    <h3 class="font-heading font-bold text-sm text-sparkNavy uppercase tracking-wide">Support & Tutoring Hours</h3>
+                                    <p class="text-slate-600 text-sm mt-1">Monday – Saturday: <strong>7:00 AM – 7:00 PM</strong><br><span class="text-xs text-sparkBlue font-semibold">(AI Practice App available 24/7)</span></p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded-xl bg-blue-100 text-sparkBlue flex items-center justify-center text-xl shrink-0">📞</div>
+                                <div>
+                                    <h3 class="font-heading font-bold text-sm text-sparkNavy uppercase tracking-wide">Phone & WhatsApp</h3>
+                                    <p class="text-slate-600 text-sm mt-1">+503 2440-1234</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded-xl bg-orange-100 text-sparkOrange flex items-center justify-center text-xl shrink-0">📧</div>
+                                <div>
+                                    <h3 class="font-heading font-bold text-sm text-sparkNavy uppercase tracking-wide">Email Us</h3>
+                                    <p class="text-slate-600 text-sm mt-1">hello@lingospark.com</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stylized Map Card for Santa Ana -->
+                        <div class="bg-sparkNavy text-white rounded-3xl p-6 relative overflow-hidden">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-sparkOrange uppercase">El Salvador Hub</span>
+                                    <p class="font-heading font-bold text-lg mt-0.5">Santa Ana Learning Center</p>
+                                    <p class="text-xs text-slate-300 mt-1">Av. Independencia Sur • Near Metrocentro</p>
+                                </div>
+                                <span class="text-3xl">🗺️</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Contact Form -->
+                    <div class="lg:col-span-7">
+                        <div class="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm">
+                            <h2 class="font-heading font-bold text-2xl text-sparkNavy mb-2">Send Us a Message</h2>
+                            <p class="text-sm text-slate-500 mb-6">Our support team responds within 2 hours during business hours (7:00 AM – 7:00 PM).</p>
+
+                            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-5">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-sparkNavy mb-1.5">Your Name *</label>
+                                        <input type="text" required placeholder="e.g., Maria Rodriguez" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sparkBlue focus:ring-2 focus:ring-blue-200 outline-none text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-sparkNavy mb-1.5">Email Address *</label>
+                                        <input type="email" required placeholder="parent@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sparkBlue focus:ring-2 focus:ring-blue-200 outline-none text-sm">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-sparkNavy mb-1.5">I am a...</label>
+                                        <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sparkBlue focus:ring-2 focus:ring-blue-200 outline-none text-sm bg-white">
+                                            <option value="parent">Parent (Student Ages 7–14)</option>
+                                            <option value="school">School / Teacher Representative</option>
+                                            <option value="other">General Inquiry</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-sparkNavy mb-1.5">Student Age Group</label>
+                                        <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sparkBlue focus:ring-2 focus:ring-blue-200 outline-none text-sm bg-white">
+                                            <option value="7-9">Ages 7–9 (Spark Explorers)</option>
+                                            <option value="10-12">Ages 10–12 (Spark Builders)</option>
+                                            <option value="13-14">Ages 13–14 (Spark Achievers)</option>
+                                            <option value="classroom">Whole Classroom (School Pack)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-sparkNavy mb-1.5">Message *</label>
+                                    <textarea rows="4" required placeholder="Tell us how we can help your child with English or school subjects..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sparkBlue focus:ring-2 focus:ring-blue-200 outline-none text-sm"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full sm:w-auto bg-sparkOrange hover:bg-orange-600 text-white font-heading font-bold px-8 py-4 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer">
+                                    Send Message
+                                </button>
+                            </form>
+
+                            <!-- Visual Confirmation Banner (Hidden until submit) -->
+                            <div id="contact-success" class="hidden mt-6 p-5 rounded-2xl bg-green-50 border border-green-200 text-green-800">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-2xl">✅</span>
+                                    <div>
+                                        <h3 class="font-heading font-bold text-base">Message Sent Successfully!</h3>
+                                        <p class="text-sm mt-1">Thank you for contacting <strong>LingoSpark</strong>. Our team in Santa Ana will reply to your email shortly.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-sparkNavy text-slate-300 pt-14 pb-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-lg bg-sparkBlue flex items-center justify-center">
+                            <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 4C10.268 4 4 9.59644 4 16.5C4 19.6542 5.3112 22.5363 7.47852 24.7376L5.5 31L12.1924 28.1318C13.998 28.6951 15.9576 29 18 29C25.732 29 32 23.4036 32 16.5C32 9.59644 25.732 4 18 4Z" fill="#FFFFFF"/>
+                                <path d="M18.5 9L13.5 17.5H18L17.5 24L22.5 15.5H18L18.5 9Z" fill="#F97316"/>
+                            </svg>
+                        </div>
+                        <span class="font-heading font-bold text-xl text-white">Lingo<span class="text-sparkBlue">Spark</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 max-w-md">
+                        Igniting Young Minds, One Click at a Time. Combining 24/7 AI interactive learning with certified live tutors (7:00 AM – 7:00 PM) for students ages 7–14.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-white text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button onclick="navigateTo('home')" class="hover:text-sparkOrange transition-colors">Home</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-sparkOrange transition-colors">About Us</button></li>
+                        <li><button onclick="navigateTo('pricing')" class="hover:text-sparkOrange transition-colors">Services & Pricing</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-sparkOrange transition-colors">Contact Us</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-white text-sm uppercase tracking-wider mb-4">Santa Ana Office</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li>Av. Independencia Sur, Plaza Comercial #14</li>
+                        <li>Santa Ana, El Salvador</li>
+                        <li>+503 2440-1234</li>
+                        <li>hello@lingospark.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+                <p>© 2026 LingoSpark EdTech. All rights reserved.</p>
+                <p>100% Kid-Safe & Ad-Free Learning Environment</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE FREE TRIAL MODAL -->
+    <div id="trial-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-sparkNavy/70 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-7 sm:p-8 shadow-2xl border border-slate-200 relative animate-fadeIn">
+            <button onclick="closeTrialModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold" aria-label="Close modal">
+                ✕
+            </button>
+
+            <div id="modal-form-container">
+                <span class="inline-block px-3 py-1 rounded-full bg-orange-100 text-sparkOrange font-bold text-xs mb-3">7-Day Free Trial</span>
+                <h3 class="font-heading font-bold text-2xl text-sparkNavy">Start Your Child's Learning Spark</h3>
+                <p id="modal-plan-label" class="text-sm text-sparkBlue font-semibold mt-1">Selected: Spark Plus ($24.99/mo after trial)</p>
+
+                <form onsubmit="submitTrialForm(event)" class="mt-5 space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-sparkNavy uppercase mb-1">Parent's Full Name *</label>
+                        <input type="text" required placeholder="Your name" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-sparkBlue outline-none text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-sparkNavy uppercase mb-1">Parent's Email *</label>
+                        <input type="email" required placeholder="you@email.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-sparkBlue outline-none text-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-sparkNavy uppercase mb-1">Child's Name *</label>
+                            <input type="text" required placeholder="Child's name" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-sparkBlue outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-sparkNavy uppercase mb-1">Child's Age</label>
+                            <select class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-sparkBlue outline-none text-sm bg-white">
+                                <option>7–9 yrs</option>
+                                <option>10–12 yrs</option>
+                                <option>13–14 yrs</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-sparkOrange hover:bg-orange-600 text-white font-heading font-bold py-3.5 rounded-xl shadow-lg shadow-orange-500/25 transition-all mt-2">
+                        Unlock Free 7-Day Access
+                    </button>
+                    <p class="text-[11px] text-center text-slate-400">No credit card charged today. Cancel anytime in 1 click.</p>
+                </form>
+            </div>
+
+            <!-- Modal Confirmation Screen -->
+            <div id="modal-success-container" class="hidden text-center py-6 space-y-4">
+                <div class="w-16 h-16 mx-auto rounded-full bg-green-100 text-green-600 flex items-center justify-center text-3xl">🎉</div>
+                <h3 class="font-heading font-bold text-2xl text-sparkNavy">Welcome to LingoSpark!</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Your <strong>7-Day Free Trial</strong> is active! Check your inbox for your child's login link and 5-minute AI placement game.
+                </p>
+                <button onclick="closeTrialModal()" class="w-full bg-sparkBlue text-white font-heading font-bold py-3 rounded-xl">
+                    Back to Website
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR NAVIGATION, MINI-GAME & MODALS -->
+    <script>
+        // Switch between the 4 main pages
+        function navigateTo(pageId) {
+            try {
+                // Hide all sections
+                const sections = document.querySelectorAll('.page-section');
+                sections.forEach(sec => {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('block');
+                });
+
+                // Show target section
+                const target = document.getElementById('page-' + pageId);
+                if (target) {
+                    target.classList.remove('hidden');
+                    target.classList.add('block');
+                }
+
+                // Update Desktop Nav active states
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.classList.remove('text-sparkBlue', 'font-semibold', 'border-b-2', 'border-sparkBlue');
+                    link.classList.add('text-slate-600');
+                });
+
+                const activeLink = document.getElementById('nav-' + pageId);
+                if (activeLink) {
+                    activeLink.classList.remove('text-slate-600');
+                    activeLink.classList.add('text-sparkBlue', 'font-semibold', 'border-b-2', 'border-sparkBlue');
+                }
+
+                // Scroll smoothly to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (err) {
+                console.error('Navigation error:', err);
+            }
+        }
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Interactive Hero Demo Mini-Quiz
+        function checkDemoAnswer(btn, isCorrect) {
+            const blank = document.getElementById('demo-blank');
+            const feedback = document.getElementById('demo-feedback');
+            const allBtns = document.querySelectorAll('.demo-opt-btn');
+
+            allBtns.forEach(b => {
+                b.classList.remove('bg-green-100', 'border-green-500', 'text-green-800', 'bg-red-100', 'border-red-400', 'text-red-800');
+            });
+
+            if (isCorrect) {
+                blank.textContent = 'went';
+                blank.classList.remove('text-sparkOrange');
+                blank.classList.add('text-green-600');
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                feedback.textContent = '🎉 Awesome job! AI Score: 98% Accuracy';
+                feedback.className = 'text-xs font-semibold text-green-600 block';
+            } else {
+                blank.textContent = 'goed';
+                btn.classList.add('bg-red-100', 'border-red-400', 'text-red-800');
+                feedback.textContent = '💡 Almost! Remember "go" is irregular in the past. Try "went"!';
+                feedback.className = 'text-xs font-semibold text-sparkOrange block';
+            }
+        }
+
+        // Free Trial Modal Controls
+        function openTrialModal(planName) {
+            const modal = document.getElementById('trial-modal');
+            const planLabel = document.getElementById('modal-plan-label');
+            const formContainer = document.getElementById('modal-form-container');
+            const successContainer = document.getElementById('modal-success-container');
+
+            planLabel.textContent = 'Selected Plan: ' + planName;
+            formContainer.classList.remove('hidden');
+            successContainer.classList.add('hidden');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeTrialModal() {
+            const modal = document.getElementById('trial-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function submitTrialForm(event) {
+            event.preventDefault();
+            document.getElementById('modal-form-container').classList.add('hidden');
+            document.getElementById('modal-success-container').classList.remove('hidden');
+        }
+
+        // Contact Form Submission Handler
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('contact-form');
+            const successBanner = document.getElementById('contact-success');
+
+            form.reset();
+            successBanner.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
